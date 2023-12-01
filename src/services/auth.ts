@@ -8,8 +8,6 @@ import {
 export async function login(
   ig: IgApiClient,
 ): Promise<AccountRepositoryLoginResponseLogged_in_user | undefined> {
-  ig.state.generateDevice(process.env.IG_USERNAME as string);
-
   try {
     const { username } = await inquirer.prompt([
       {
@@ -19,9 +17,11 @@ export async function login(
       },
     ]);
 
+    ig.state.generateDevice(username as string);
+
     const { password } = await inquirer.prompt([
       {
-        type: 'password',
+        type: 'input',
         name: 'password',
         message: 'Digite sua senha:',
       },
